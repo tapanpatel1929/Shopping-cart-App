@@ -3,8 +3,15 @@ import Dropdown from "../../Components/Dropdown";
 import Input from "../../Components/Input";
 import Checkbox from "../../Components/Checkbox";
 import Radio from "../../Components/Radio";
+import FileUpload from "../../Components/Fileupload";
+
+
+
+
 
 const wait = (t: number) => new Promise((resolve) => setTimeout(resolve, t));
+
+
 
 type Props = {};
 
@@ -25,27 +32,21 @@ const Register = (props: Props) => {
   };
 
   const checkboxOptions = [
-    { id: 'Cricket', text: 'cricket' },
-    { id: 'volleyball', text: 'volleyball' },
-    { id: 'foot-ball', text: 'foot-ball' },
+    { id: "Cricket", text: "cricket" },
+    { id: "volleyball", text: "volleyball" },
+    { id: "foot-ball", text: "foot-ball" },
   ];
+
+
+
+
+
 
   return (
     <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
-      {/* <Select
-        control={control}
-        name="select"
-        rules={{
-          required: {
-            value: true,
-            message: "You have to select One",
-          },
-        }}
-        label="Select"
-        id="select"
-      /> */}
+ 
       <Input
-        control = {control}
+        control={control}
         name="name"
         rules={{
           required: {
@@ -102,9 +103,9 @@ const Register = (props: Props) => {
         id="hobbies"
         options={[
           {
-            value:'cricket',
-            Text:'cricket'
-          }
+            value: "cricket",
+            Text: "cricket",
+          },
         ]}
       />
       <Radio
@@ -132,29 +133,42 @@ const Register = (props: Props) => {
           },
         }}
       />
-     
-{/* const checkboxOptions = [
+
+      {/* const checkboxOptions = [
   { id: 'optionA', text: 'Option A' },
   { id: 'optionB', text: 'Option B' },
   { id: 'optionC', text: 'Option C' },
 ]; */}
 
-<Checkbox
-  label="Checkbox Group"
-  items={checkboxOptions}
-  name="checkboxGroupName"
-  control={control}
-  rules={{ required: 'Please select at least one option' }}
-/>
-      <div>
-        <button
-          type="submit"
-          disabled={isSubmitting || !isValid}
-          className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:bg-slate-400 disabled:cursor-wait"
-        >
-          Sign up
-        </button>
-      </div>
+      <Checkbox
+        label="Checkbox Group"
+        items={checkboxOptions}
+        name="checkboxGroupName"
+        control={control}
+        rules={{ required: "Please select at least one option" }}
+      />
+          <FileUpload
+        control={control}
+        name="file"
+        label="Upload File"
+        rules={{
+          required: {
+            value: true,
+            message: 'File is required.',
+          },
+        }}
+      />
+        <div>
+          <button
+            type="submit"
+            disabled={isSubmitting || !isValid}
+            className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:bg-stone-300 disabled:cursor-wait"
+          >
+            Sign up
+          </button>
+        </div>
+    
+
     </form>
   );
 };

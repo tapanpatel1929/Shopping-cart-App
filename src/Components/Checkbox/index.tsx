@@ -13,7 +13,6 @@ type Props = {
   rules?: any;
 };
 
-
 const Checkbox = ({ label, items, name, control, rules }: Props) => {
   const {
     field: { value, onChange },
@@ -22,18 +21,16 @@ const Checkbox = ({ label, items, name, control, rules }: Props) => {
     name,
     control,
     rules,
-    defaultValue: [] // Set the initial value for the checkbox array
+    defaultValue: [], 
   });
 
   const handleCheckboxChange = (itemId: string) => {
     const updatedValue = value.includes(itemId)
-      ? value.filter((item) => item !== itemId) // Remove the item if it exists
-      : [...value, itemId]; // Add the item if it doesn't exist
+      ? value.filter((item) => item !== itemId) 
+      : [...value, itemId]; 
 
     onChange(updatedValue);
   };
-
-
 
   return (
     <fieldset>
