@@ -1,50 +1,33 @@
 import { useForm } from "react-hook-form";
+import Input from "../../components/Input";
+import Radio from "../../components/Radio";
 import Dropdown from "../../Components/Dropdown";
-import Input from "../../Components/Input";
-import Checkbox from "../../Components/Checkbox";
-import Radio from "../../Components/Radio";
+import Checkbox from "../../components/Checkbox";
 import FileUpload from "../../Components/Fileupload";
-
-
-
-
+import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import { AuthContext } from "../../context/authContext";
 
 const wait = (t: number) => new Promise((resolve) => setTimeout(resolve, t));
-
-
 
 type Props = {};
 
 const Register = (props: Props) => {
   const {
-    register,
     handleSubmit,
     getValues,
     control,
+    watch,
     formState: { errors, isSubmitting, isValid },
   } = useForm({
     mode: "onBlur",
   });
+  const { register } = useContext(AuthContext);
 
-  const onSubmit = async (data) => {
-    await wait(5000);
-    console.log(data);
-  };
-
-  const checkboxOptions = [
-    { id: "Cricket", text: "cricket" },
-    { id: "volleyball", text: "volleyball" },
-    { id: "foot-ball", text: "foot-ball" },
-  ];
-
-
-
-
-
+  console.log(watch("gender"));
 
   return (
-    <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
- 
+    <form className="space-y-6" onSubmit={handleSubmit(register)}>
       <Input
         control={control}
         name="name"
@@ -58,6 +41,19 @@ const Register = (props: Props) => {
         id="name"
         autoComplete="name"
       />
+      {/* <File
+        control={control}
+        name="avatar"
+        rules={{
+          required: {
+            value: true,
+            message: "avatar is Required..",
+          },
+        }}
+        label="Avatar"
+        id="avatar"
+        multiple
+      /> */}
       <Input
         control={control}
         rules={{
@@ -90,24 +86,45 @@ const Register = (props: Props) => {
         type="password"
         autoComplete="new-password"
       />
-      <Dropdown
+      <Input
+        control={control}
+        name="confirmPassword"
+        rules={{
+          required: {
+            value: true,
+            message: "confirm Password is Required..",
+            validate: (value) => {
+              const { password } = getValues();
+              return (
+                value === password || "Password should match confirm password"
+              );
+            },
+          },
+        }}
+        label="Confirm Password"
+        id="confirmPassword"
+        type="password"
+        autoComplete="new-password"
+      />
+      {/* <Select
         control={control}
         name="hobbies"
         rules={{
           required: {
             value: true,
-            message: "hobbies is Required..",
+            message: "Hobbies is Required..",
           },
         }}
-        label="hobbies"
+        label="Hobbies"
         id="hobbies"
+        placeholder="Please select hobby"
         options={[
           {
             value: "cricket",
-            Text: "cricket",
+            text: "Cricket",
           },
         ]}
-      />
+      /> */}
       <Radio
         label="Gender"
         items={[
@@ -133,42 +150,41 @@ const Register = (props: Props) => {
           },
         }}
       />
-
-      {/* const checkboxOptions = [
-  { id: 'optionA', text: 'Option A' },
-  { id: 'optionB', text: 'Option B' },
-  { id: 'optionC', text: 'Option C' },
-]; */}
-
       <Checkbox
-        label="Checkbox Group"
-        items={checkboxOptions}
-        name="checkboxGroupName"
+        label="Hobbies"
+        items={[
+          {
+            id: "cricket",
+            text: "Cricket",
+          },
+          {
+            id: "hoccky",
+            text: "Hoccky",
+          },
+          {
+            id: "football",
+            text: "Football",
+          },
+        ]}
+        name="hobbies"
         control={control}
-        rules={{ required: "Please select at least one option" }}
-      />
-          <FileUpload
-        control={control}
-        name="file"
-        label="Upload File"
+        defaultValue={[]}
         rules={{
           required: {
             value: true,
-            message: 'File is required.',
+            message: "Hobbies is Required..",
           },
         }}
       />
-        <div>
-          <button
-            type="submit"
-            disabled={isSubmitting || !isValid}
-            className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:bg-stone-300 disabled:cursor-wait"
-          >
-            Sign up
-          </button>
-        </div>
-    
-
+      <div>
+        <button
+          type="submit"
+          // disabled={isSubmitting || !isValid}
+          className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:bg-slate-400 disabled:cursor-wait"
+        >
+          Sign up
+        </button>
+      </div>
     </form>
   );
 };

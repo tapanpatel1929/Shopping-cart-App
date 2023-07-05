@@ -14,6 +14,7 @@ import Mainlayout from './Layout/mainlayout';
 import Authlayout from './Layout/authlayout';
 import About from './Pages/About/about';
 import "./index.css"
+import { AuthProvider } from './context/authContext';
 
 const router = createBrowserRouter([
   {
@@ -55,6 +56,8 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
     <React.StrictMode>
+      <AuthProvider>
   <RouterProvider router={router} />
+  </AuthProvider>
    </React.StrictMode>,
 )
