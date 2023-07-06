@@ -2,16 +2,15 @@ import { useCallback, useContext, useEffect, useState } from "react";
 // import axiosInstance from "../../axiosInstance.js";
 // import { AuthContext } from "../../context/authContext";
 import axios from "axios";
-import axiosInstance from "../../axiosinstance";
 type Props = {};
 
 const Home = (props: Props) => {
   // const { user } = useContext(AuthContext);
-  const [product, setproduct] = useState([]);
+  const [products, setproduct] = useState([]);
 
   const loadProducts = useCallback(async () => {
     try {
-      const res = await axiosInstance.get("products");
+      const res = await axios.get("http://localhost:3000/products");
       setproduct(res.data);
       console.log(res);
     } catch (error) {
@@ -25,53 +24,46 @@ const Home = (props: Props) => {
 
   return (
     <>
-      <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-        <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-          <thead className="text-xs pt- 96text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-            <tr >
-              <th scope="col" className="px-6 py-3">
-                <span className="sr-only">Image</span>
-              </th>
-              <th scope="col" className="px-6 py-3 text-lg">
-                Product
-              </th>
-              <th scope="col" className="px-6 py-3 text-lg">
-                Category
-              </th>
+      <div className="bg-white">
+        <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
+          <h2 className="text-2xl font-bold tracking-tight text-gray-900">
+              Products
+          </h2>
 
-              <th scope="col" className="px-6 py-3 text-lg">
-                Price
-              </th>
-              <th scope="col" className="px-6 py-3 text-lg">
-                Action
-              </th>
-            </tr>
-          </thead>
-          {product.map((x) => (
-            <tbody key={x.id}>
-              <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                <td className="w-32 p-4">
-                  <img src={x.image} alt="Apple Watch" />
-                </td>
-                <td className="px-6 py-4 font-semibold text-gray-900 dark:text-white">
-                  {x.title}
-                </td>
-                <td className="px-6 py-4 font-semibold text-gray-900 dark:text-white">
-                  {x.category}
-                </td>
-
-                <td className="px-6 py-4 font-semibold text-gray-900 dark:text-white">
-                  ${x.price}
-                </td>
-                <td className="px-6 py-4">
-                  <button className='bg-blue-600 text-white font-semibold rounded-md p-3 hover:opacity-75 '>Add to Cart </button>
-                </td>
-              </tr>
-
-            </tbody>
-          ))}
-
-        </table>
+          <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
+            {products.map((product) => (
+              <div key={product.id} className="group relative">
+                <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
+                  <img
+                    src={product.image}
+                    alt={product.image}
+                    className="h-full w-full object-cover object-center lg:h-full lg:w-full"
+                  />
+                </div>
+                <div className="mt-4 flex justify-between">
+                  <div>
+                    <h3 className="text-sm text-gray-700">
+                      <a href={product.href}>
+                        <span aria-hidden="true" className="absolute inset-0" />
+                        {product.category}
+                      </a>
+                    </h3>
+                    <h1>{product.title}</h1>
+                    <button className="bg-blue-600 rounded-lg py-1 px-2 font-bold hover:bg-gray-200 mt-5">
+                      Add To Cart
+                    </button>
+                    <p className="mt-1 text-sm text-gray-500">
+                      {product.color}
+                    </p>
+                  </div>
+                  <p className="text-sm font-medium text-gray-900">
+                    {product.price}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     </>
   );
